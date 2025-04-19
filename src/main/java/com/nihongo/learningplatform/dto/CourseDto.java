@@ -26,6 +26,7 @@ public class CourseDto {
     private BigDecimal price;
 
     private String thumbnailUrl;
+    private String thumbnailPublicId;
     private boolean approved;
     private boolean active;
     private String level;

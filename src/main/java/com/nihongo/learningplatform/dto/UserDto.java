@@ -23,6 +23,9 @@ public class UserDto {
     @Email(message = "Email should be valid")
     private String email;
 
+    private String profilePictureUrl;
+    private String profilePicturePublicId;
+
     private String fullName;
     private UserRole role;
     private boolean active;

@@ -88,7 +88,7 @@ public class SolutionController {
             }
         } else if (solutionDto.getSpeechExerciseId() != null) {
             SpeechExercise speechExercise = speechExerciseService.getSpeechExerciseEntityById(solutionDto.getSpeechExerciseId());
-            Course course = speechExercise.getLesson().getCourse();
+            Course course = speechExercise.getLesson().getModule().getCourse();
             courseId = course.getId();
 
             // Check if instructor owns this course
@@ -147,7 +147,7 @@ public class SolutionController {
             }
         } else if (solution.getSpeechExerciseId() != null) {
             SpeechExercise speechExercise = speechExerciseService.getSpeechExerciseEntityById(solution.getSpeechExerciseId());
-            course = speechExercise.getLesson().getCourse();
+            course = speechExercise.getLesson().getModule().getCourse();
         }
 
         if (course != null) {
@@ -235,7 +235,7 @@ public class SolutionController {
         boolean isAdmin = instructor.getRole().name().equals("ADMIN");
 
         SpeechExercise speechExercise = speechExerciseService.getSpeechExerciseEntityById(speechExerciseId);
-        Course course = speechExercise.getLesson().getCourse();
+        Course course = speechExercise.getLesson().getModule().getCourse();
 
         // Check if instructor owns this course
         if (!isAdmin && !course.getInstructor().getId().equals(instructor.getId())) {
@@ -358,7 +358,7 @@ public class SolutionController {
             }
         } else if (existingSolution.getSpeechExerciseId() != null) {
             SpeechExercise speechExercise = speechExerciseService.getSpeechExerciseEntityById(existingSolution.getSpeechExerciseId());
-            course = speechExercise.getLesson().getCourse();
+            course = speechExercise.getLesson().getModule().getCourse();
         }
 
         if (course != null && !isAdmin && !course.getInstructor().getId().equals(instructor.getId())) {
@@ -407,7 +407,7 @@ public class SolutionController {
             }
         } else if (existingSolution.getSpeechExerciseId() != null) {
             SpeechExercise speechExercise = speechExerciseService.getSpeechExerciseEntityById(existingSolution.getSpeechExerciseId());
-            course = speechExercise.getLesson().getCourse();
+            course = speechExercise.getLesson().getModule().getCourse();
         }
 
         if (course != null && !isAdmin && !course.getInstructor().getId().equals(instructor.getId())) {
@@ -457,7 +457,7 @@ public class SolutionController {
             }
         } else if (existingSolution.getSpeechExerciseId() != null) {
             SpeechExercise speechExercise = speechExerciseService.getSpeechExerciseEntityById(existingSolution.getSpeechExerciseId());
-            course = speechExercise.getLesson().getCourse();
+            course = speechExercise.getLesson().getModule().getCourse();
         }
 
         if (course != null && !isAdmin && !course.getInstructor().getId().equals(instructor.getId())) {
@@ -503,7 +503,7 @@ public class SolutionController {
             }
         } else if (existingSolution.getSpeechExerciseId() != null) {
             SpeechExercise speechExercise = speechExerciseService.getSpeechExerciseEntityById(existingSolution.getSpeechExerciseId());
-            course = speechExercise.getLesson().getCourse();
+            course = speechExercise.getLesson().getModule().getCourse();
         }
 
         if (course != null && !isAdmin && !course.getInstructor().getId().equals(instructor.getId())) {
@@ -606,7 +606,7 @@ public class SolutionController {
 
             // Find course ID for the speech exercise
             SpeechExercise speechExercise = speechExerciseService.getSpeechExerciseEntityById(speechExerciseId);
-            Long courseId = speechExercise.getLesson().getCourse().getId();
+            Long courseId = speechExercise.getLesson().getModule().getCourse().getId();
 
             // Check if user is allowed to view this solution
             boolean isAllowed = solutionService.isUserAllowedToViewSolution(solution.getId(), user.getId(), courseId);

@@ -1,13 +1,11 @@
 package com.nihongo.learningplatform.repository;
 
-import com.nihongo.learningplatform.entity.Course;
 import com.nihongo.learningplatform.entity.Lesson;
+import com.nihongo.learningplatform.entity.Module;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
-    List<Lesson> findByCourseOrderByOrderIndex(Course course);
+    List<Lesson> findByModuleOrderByOrderIndex(Module module);
 }

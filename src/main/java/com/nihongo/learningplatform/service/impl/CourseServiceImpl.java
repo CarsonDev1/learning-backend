@@ -7,6 +7,7 @@ import com.nihongo.learningplatform.entity.User;
 import com.nihongo.learningplatform.exception.ResourceNotFoundException;
 import com.nihongo.learningplatform.repository.CourseRepository;
 import com.nihongo.learningplatform.repository.ReviewRepository;
+import com.nihongo.learningplatform.service.CloudinaryService;
 import com.nihongo.learningplatform.service.CourseService;
 import com.nihongo.learningplatform.service.ExamService;
 import com.nihongo.learningplatform.service.ExerciseService;
@@ -114,23 +115,32 @@ public class CourseServiceImpl implements CourseService {
                 .collect(Collectors.toList());
     }
 
+    @Autowired
+    private CloudinaryService cloudinaryService;
+
     @Override
     @Transactional
     public CourseDto updateCourse(Long id, CourseDto courseDto) {
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course not found with id: " + id));
 
+        if (courseDto.getThumbnailUrl() != null && !courseDto.getThumbnailUrl().equals(course.getThumbnailUrl())
+                && course.getThumbnailPublicId() != null) {
+            cloudinaryService.deleteFile(course.getThumbnailPublicId(), "image");
+        }
+
         course.setTitle(courseDto.getTitle());
         course.setDescription(courseDto.getDescription());
         course.setPrice(courseDto.getPrice());
         course.setThumbnailUrl(courseDto.getThumbnailUrl());
+        course.setThumbnailPublicId(courseDto.getThumbnailPublicId());
         course.setLevel(courseDto.getLevel());
 
         // After updating a course, it should be reviewed again
         course.setApproved(false);
 
         Course updatedCourse = courseRepository.save(course);
-        return mapToDtoWithStats(updatedCourse);
+        return mapToDto(updatedCourse);
     }
 
     @Override
@@ -180,9 +190,23 @@ public class CourseServiceImpl implements CourseService {
     @Override
     @Transactional
     public void deleteCourse(Long id) {
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found with id: " + id));
         if (!courseRepository.existsById(id)) {
             throw new ResourceNotFoundException("Course not found with id: " + id);
         }
+
+        if (course.getThumbnailPublicId() != null) {
+            cloudinaryService.deleteFile(course.getThumbnailPublicId(), "image");
+        }
+
+        course.getModules().forEach(module -> {
+            module.getLessons().forEach(lesson -> {
+                if (lesson.getVideoPublicId() != null) {
+                    cloudinaryService.deleteFile(lesson.getVideoPublicId(), "video");
+                }
+            });
+        });
         courseRepository.deleteById(id);
     }
 

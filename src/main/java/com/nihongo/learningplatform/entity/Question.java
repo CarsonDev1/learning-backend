@@ -38,6 +38,10 @@ public class Question {
     @JoinColumn(name = "exam_id")
     private Exam exam;
 
+    @ManyToOne
+    @JoinColumn(name = "mock_exam_id")
+    private MockExam mockExam;
+
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private Set<Answer> answers = new HashSet<>();
 

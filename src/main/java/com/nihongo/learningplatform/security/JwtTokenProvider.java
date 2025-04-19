@@ -28,19 +28,22 @@ public class JwtTokenProvider {
     @Value("${jwt.expiration}")
     private long jwtExpirationMs;
 
-    public String generateToken(Authentication authentication) {
-        UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
+
+    /**
+     * Generate JWT token from username
+     *
+     * @param username the username
+     * @return JWT token
+     */
+    public String generateTokenFromUsername(String username) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
 
         return Jwts.builder()
-                .setSubject(userPrincipal.getUsername())
+                .setSubject(username)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
-                .claim("roles", userPrincipal.getAuthorities().stream()
-                        .map(GrantedAuthority::getAuthority)
-                        .collect(Collectors.joining(",")))
                 .signWith(key(), SignatureAlgorithm.HS512)
                 .compact();
     }

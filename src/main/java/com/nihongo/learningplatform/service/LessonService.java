@@ -10,6 +10,7 @@ public interface LessonService {
     LessonDto createLesson(LessonDto lessonDto);
     LessonDto getLessonById(Long id);
     List<LessonDto> getLessonsByCourse(Long courseId);
+    List<LessonDto> getLessonsByModule(Long moduleId);
     LessonDto updateLesson(Long id, LessonDto lessonDto);
     void deleteLesson(Long id);
     Lesson getLessonEntityById(Long id);

@@ -16,12 +16,15 @@ public class LessonDto {
     @NotBlank(message = "Title is required")
     private String title;
 
+    private Long courseId;
+
     @NotBlank(message = "Content is required")
     private String content;
 
     private String videoUrl;
+    private String videoPublicId;
     private int orderIndex;
 
-    @NotNull(message = "Course ID is required")
-    private Long courseId;
+    @NotNull(message = "Module ID is required")
+    private Long moduleId;
 }

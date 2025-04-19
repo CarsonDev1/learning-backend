@@ -17,6 +17,20 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String invoiceRef;
+    private String customerName;
+    private String customerEmail;
+    private String customerPhone;
+    private String paymentMethodDetails;
+    private String bankCode;
+    private String cardType;
+
+    @OneToOne(mappedBy = "payment")
+    private Invoice invoice;
+
+    @OneToOne(mappedBy = "payment")
+    private ComboEnrollment comboEnrollment;
+
     @Column(nullable = false)
     private String transactionId;
 

@@ -18,6 +18,28 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String profilePictureUrl;
+    private String profilePicturePublicId;
+    private String phoneNumber;
+    private String address;
+    private LocalDateTime lastLoginDate;
+    private String resetPasswordToken;
+
+    @OneToMany(mappedBy = "user")
+    private Set<LearningHistory> learningHistory = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<Certificate> certificates = new HashSet<>();
+
+    @OneToMany(mappedBy = "student")
+    private Set<ComboEnrollment> comboEnrollments = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<MockExamAttempt> mockExamAttempts = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<Invoice> invoices = new HashSet<>();
+
     @Column(nullable = false, unique = true)
     private String username;
 

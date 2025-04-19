@@ -24,6 +24,8 @@ public class Lesson {
 
     private String videoUrl;
 
+    private String videoPublicId;
+
     private int orderIndex;
 
     private LocalDateTime createdAt;
@@ -31,8 +33,16 @@ public class Lesson {
     private LocalDateTime updatedAt;
 
     @ManyToOne
-    @JoinColumn(name = "course_id", nullable = false)
+    @JoinColumn(name = "module_id", nullable = false)
+    private Module module;
+
+    @ManyToOne
+    @JoinColumn(name = "course_id")
     private Course course;
+
+    private int durationMinutes;
+    private String contentType; // VIDEO, TEXT, INTERACTIVE, QUIZ
+    private boolean isRequired = true;
 
     @PrePersist
     protected void onCreate() {

@@ -19,6 +19,29 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private int durationDays;
+    private int totalLessons;
+    private int totalExercises;
+    private int totalExams;
+    private String level; // N5, N4, N3, N2, N1
+    private LocalDateTime startDate; // Ngày bắt đầu khóa học
+    private LocalDateTime endDate; // Ngày kết thúc khóa học (nếu có)
+    private boolean requiresCertificate = false; // Khóa học có cấp chứng chỉ không
+    private boolean hasMockExam = false; // Khóa học có bài thi thử không
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Module> modules = new HashSet<>();
+
+    @OneToMany(mappedBy = "course")
+    private Set<MockExam> mockExams = new HashSet<>();
+
+    @OneToMany(mappedBy = "course")
+    private Set<Certificate> certificates = new HashSet<>();
+
+    @ManyToMany(mappedBy = "courses")
+    private Set<CourseCombo> combos = new HashSet<>();
+
+
     @Column(nullable = false)
     private String title;
 
@@ -28,15 +51,16 @@ public class Course {
     @Column(nullable = false)
     private BigDecimal price;
 
+    @Column(nullable = false)
     private String thumbnailUrl;
+
+    private String thumbnailPublicId;
 
     @Column(nullable = false)
     private boolean approved = false;
 
     @Column(nullable = false)
     private boolean active = true;
-
-    private String level; // N5, N4, N3, N2, N1
 
     private LocalDateTime createdAt;
 

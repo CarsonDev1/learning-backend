@@ -16,6 +16,15 @@ public class Enrollment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private LocalDateTime expiresAt;
+    private Integer finalScore;
+    private boolean certificateIssued = false;
+    private String notes;
+
+    @OneToOne
+    @JoinColumn(name = "payment_id")
+    private Payment payment;
+
     private LocalDateTime enrolledAt;
 
     private boolean completed = false;
